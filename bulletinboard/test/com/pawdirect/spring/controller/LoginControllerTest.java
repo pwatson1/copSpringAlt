@@ -1,0 +1,75 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContext;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.pawdirect.spring.service.UsersService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class})
+@WebAppConfiguration
+public class LoginControllerTest {
+	
+	/*
+	private static final String NEW_LOGIN_CONTROLLER = 
+			new LoginController().showLogin();
+	*/
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private UsersService usersService;
+	
+	@InjectMocks
+	private LoginController loginController;
+
+	@BeforeClass
+	public void setUpBeforeClass() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		
+		this.mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
+		
+	}
+	
+	@AfterClass
+	public void tearDownClass() throws Exception {
+	    this.mockMvc = null; 
+	}
+
+	@Test
+	public void testShowLogin() throws Exception {
+		
+		mockMvc.perform(get("/login"))
+		.andReturn()
+		.toString();
+		
+		Mockito.when(loginController.showLogin())
+		.thenReturn("login");
+		
+		Mockito.verify(loginController).showLogin();
+		
+		
+	}
+
+}

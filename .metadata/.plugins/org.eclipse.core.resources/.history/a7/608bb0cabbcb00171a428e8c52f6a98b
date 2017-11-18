@@ -1,0 +1,32 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ShowHomeTest {
+	private static final HomeController NEW_HOME_CONTROLLER = 
+			new HomeController.getShowHome();
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		HomeController hc = new HomeController();
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		hc.dispose();
+	}
+
+	@Test
+	public void testShowHome() {
+		fail("Not yet implemented");
+	}
+
+}

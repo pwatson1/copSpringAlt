@@ -1,0 +1,26 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class ShowHomeTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		HomeController hc = new HomeController();
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		hc.dispose();
+	}
+
+	@Test
+	public void testShowHome() {
+		fail("Not yet implemented");
+	}
+
+}

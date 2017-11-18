@@ -1,0 +1,68 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.pawdirect.spring.service.UsersService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest(LoginController.class)
+public class ShowLoginTest {
+	
+	private static final String NEW_LOGIN_CONTROLLER = 
+			new LoginController().showLogin();
+	
+	@Autowired
+	private MockMvc mocMvc;
+	
+	@MockBean
+	private UsersService usersService;
+	
+	@InjectMocks
+	private LoginController loginController;
+	
+	private static LoginController lc;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		MockitoAnnotations.initMocks(NEW_LOGIN_CONTROLLER);
+		
+		NEW_LOGIN_CONTROLLER.mockMvc = MockBuilders.standaloneSetup();
+		
+		lc = new LoginController();
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		lc = null;
+	}
+
+	@Test
+	public void testShowLogin() throws Exception {
+		
+		mocMvc.perform(get("/login"))
+		.andReturn()
+		.toString();
+		
+		Mockito.when(lc.showLogin())
+		.thenReturn("login");
+		
+		Mockito.verify(lc).showLogin();
+	}
+
+}

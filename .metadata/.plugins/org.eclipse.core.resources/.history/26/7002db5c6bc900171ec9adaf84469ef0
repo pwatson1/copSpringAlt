@@ -1,0 +1,36 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import javax.sql.DataSource;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import com.pawdirect.spring.dao.User;
+import com.pawdirect.spring.dao.UsersDao;
+
+public class ErrorHandlerTest {
+	private NamedParameterJdbcTemplate jdbc;
+
+	@Test(expected = DataAccessException.class)
+	public void testHandleDatabaseException(DataSource jdbc) {
+		
+		 UsersDao dao = new UsersDao();
+		dao.getAllUsers(((NamedParameterJdbcTemplate) jdbc).query("select * from users,  authorities where users.username=authorities.username", BeanPropertyRowMapper.newInstance(User.class)));
+	}
+	
+	@Rule
+	public DataAccessException caught = DataAccessException.none();	
+	
+	
+
+	@Test
+	public void testHandleAccessException() {
+		
+	}
+
+}

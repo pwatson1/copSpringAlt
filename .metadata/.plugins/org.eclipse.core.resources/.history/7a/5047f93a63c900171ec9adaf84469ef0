@@ -1,0 +1,19 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class ErrorHandlerTest {
+
+	@Test
+	public void testHandleDatabaseException() {
+		
+	}
+
+	@Test
+	public void testHandleAccessException() {
+		
+	}
+
+}

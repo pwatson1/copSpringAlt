@@ -130,7 +130,6 @@ public class LoginControllerTest {
 public void getAllUsersNotFound403() throws Exception {
 	
     mockMvc.perform(get("/admin/{username}"))
-    					//???
     .andExpect(status().isNotFound())
     .andExpect(view().name("denied"))
     .andExpect(forwardedUrl("/WEB-INF/jsp/denied.jsp"));
@@ -160,7 +159,6 @@ public void getAllUsersFound() throws Exception {
 			.build();
 	
     mockMvc.perform(get("/users/{username}"))
-    					//???
     .andExpect(status().isNotFound())
     .andExpect(view().name("denied"))
     .andExpect(forwardedUrl("/WEB-INF/jsp/denied.jsp"));

@@ -1,75 +1,171 @@
 package com.pawdirect.spring.controller;
 
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.pawdirect.spring.dao.User;
 import com.pawdirect.spring.service.UsersService;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class})
 @WebAppConfiguration
 public class LoginControllerTest {
 	
-	/*
-	private static final String NEW_LOGIN_CONTROLLER = 
-			new LoginController().showLogin();
-	*/
-	
-	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
-	private UsersService usersService;
+	@Autowired
+	UsersService usMock;
 	
-	@InjectMocks
-	private LoginController loginController;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+	
+	User mockUser = Mockito.mock(User.class);
+	
+	List<User> mockList = new ArrayList<User>();
+	List<User> mockList2 = new ArrayList<User>();
+	
 
-	@BeforeClass
-	public void setUpBeforeClass() throws Exception {
-		MockitoAnnotations.initMocks(this);
+	public LoginController lc;
+
+	@Before
+	public void setUp() throws Exception {
+		Mockito.reset(usMock);
 		
-		this.mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+			
+		usMock = Mockito.mock(UsersService.class);
 		
-	}
-	
-	@AfterClass
-	public void tearDownClass() throws Exception {
-	    this.mockMvc = null; 
+
+		lc = new LoginController();
+		
 	}
 
 	@Test
-	public void testShowLogin() throws Exception {
+	public void testShowAdminB() throws Exception {
 		
-		mockMvc.perform(get("/login"))
-		.andReturn()
-		.toString();
+		User one = new UserBuilder()
+				.username("paul")
+				.password("open")
+				.email("paul@nowhere.com")
+				.enabled(true)
+				.authority("admin")
+				.build();
 		
-		Mockito.when(loginController.showLogin())
-		.thenReturn("login");
+		User two = new UserBuilder()
+				.username("michele")
+				.password("enter")
+				.email("michele@nowhere.com")
+				.enabled(true)
+				.authority("user")
+				.build();
 		
-		Mockito.verify(loginController).showLogin();
+		//List group12 = Arrays.asList(one, two);
+
+		when(usMock.getAllUsers()).thenReturn(Arrays.asList(one, two));
 		
-		
+		 mockMvc.perform(get("/admin"))
+         .andExpect(status().isOk())
+         .andExpect(view().name("admin"))
+         .andExpect(forwardedUrl("/WEB-INF/jsp/admin.jsp"))
+         .andExpect(model().attribute("user", hasSize(2)))
+         .andExpect(model().attribute("user", hasItem(
+                 allOf(
+                         hasProperty("username", is("paul")),
+                         hasProperty("password", is("open")),
+                         hasProperty("email", is("paul@nowhere.com")),
+                         hasProperty("enabled", is(true)),
+                         hasProperty("authority", is("admin"))
+                 )
+         )))
+         .andExpect(model().attribute("user", hasItem(
+                 allOf(
+                         hasProperty("username", is("michele")),
+                         hasProperty("password", is("enter")),
+                         hasProperty("email", is("michele@nowhere.com")),
+                         hasProperty("enabled", is(true)),
+                         hasProperty("authority", is("user"))
+                 )
+         )));
+
+ verify(usMock, times(1)).getAllUsers();
+ verifyNoMoreInteractions(usMock);		
+
 	}
+	
+
+@Test
+public void getAllUsersNotFound403() throws Exception {
+	
+    mockMvc.perform(get("/admin/{username}"))
+    .andExpect(status().isNotFound())
+    .andExpect(view().name("denied"))
+    .andExpect(forwardedUrl("/WEB-INF/jsp/denied.jsp"));
+
+verify(usMock, times(1)).getAllUsers();
+verifyZeroInteractions(usMock);
+	
+}
+	
+@Test
+public void getAllUsersFound() throws Exception {
+	
+	User one = new UserBuilder()
+			.username("paul")
+			.password("open")
+			.email("paul@nowhere.com")
+			.enabled(true)
+			.authority("admin")
+			.build();
+	
+	User two = new UserBuilder()
+			.username("michele")
+			.password("enter")
+			.email("michele@nowhere.com")
+			.enabled(true)
+			.authority("user")
+			.build();
+	
+    mockMvc.perform(get("/users/{username}"))
+    .andExpect(status().isNotFound())
+    .andExpect(view().name("denied"))
+    .andExpect(forwardedUrl("/WEB-INF/jsp/denied.jsp"));
+
+verify(usMock, times(1)).getAllUsers();
+verifyZeroInteractions(usMock);
+	
+}
 
 }

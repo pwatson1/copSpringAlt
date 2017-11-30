@@ -1,0 +1,74 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+
+import com.pawdirect.spring.dao.User;
+import com.pawdirect.spring.service.UsersService;
+
+import junitparams.JUnitParamsRunner;
+
+public class LoginControllerTest1 {
+	static LoginController lc;
+	private static UsersService us;
+	private static List<User> users;
+
+	@Before
+	public void setUpBeforeClass() throws Exception {
+		lc = new LoginController();
+		us = Mockito.mock(UsersService.class);
+		users = Mockito.mock(List.class);
+		
+	}
+
+	@After
+	public void tearDownAfterClass() throws Exception {
+		lc=null;
+	}
+
+	@Test
+	public void testSetUsersServiceNull() {
+		assertNotNull(us.toString());
+	}
+	@Test
+	public void testSetUsersServiceEqual() {
+		assertEquals(us,Mockito.mock(UsersService.class) );
+		//?????
+	}
+ 
+	@Test
+	public void testShowLogin() {
+		assertNotNull(lc.toString());
+	}
+ 
+	@Test
+	public void testShowDenied() {
+		assertNotNull(lc.toString());
+	}
+	
+	@Test
+	public void testShowLoggedOut() {
+		assertNotNull(lc.toString());
+	}
+
+	@Test
+	public void testShowAdminNull() {
+		assertNotNull(lc.toString());
+	}
+	
+	public void testShowAdminListEqual() {
+		assertEquals(us.getAllUsers(),UsersService.class );
+		//?????
+	}
+
+}

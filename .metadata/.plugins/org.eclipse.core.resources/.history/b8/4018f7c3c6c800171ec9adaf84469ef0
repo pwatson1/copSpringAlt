@@ -1,7 +1,0 @@
-package com.pawdirect.spring.controller;
-
-import junit.framework.TestCase;
-
-public class ErrorHandlerTest extends TestCase {
-
-}

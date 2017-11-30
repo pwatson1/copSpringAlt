@@ -1,0 +1,58 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.pawdirect.spring.dao.User;
+import com.pawdirect.spring.service.UsersService;
+
+public class LoginControllerTest2 {
+	LoginController lc;
+	private UsersService us;
+	private List<User> users;
+
+	@Before
+	public void setUp() throws Exception {
+		lc = new LoginController();
+		us = Mockito.mock(UsersService.class);
+		users = (List<User>) mock(UsersService.getAllUsers();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		lc = null;
+	}
+
+	@Test
+	public void testSetUsersService() {
+		assertNotNull(us.toString());
+	}
+	
+	@Test
+	public void testSetUsersServiceEqual() {
+		assertEquals(us,Mockito.mock(UsersService.class) );
+		//?????
+	}
+
+	@Test
+	public void testShowLogin() {
+		assertNotNull(us.toString());
+	}
+
+	@Test
+	public void testShowDenied() {
+		assertNotNull(us.toString());
+	}
+
+	@Test
+	public void testShowLoggedOut() {
+		assertNotNull(us.toString());
+	}
+
+}

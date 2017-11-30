@@ -1,0 +1,70 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.pawdirect.spring.dao.User;
+import com.pawdirect.spring.service.UsersService;
+
+
+public class LoginControllerTest {
+	
+	@Autowired
+	UsersService usMock;
+
+	public LoginController lc;
+
+	@Before
+	public void setUp() throws Exception {
+		//Mockito.reset(usMock);
+		usMock = Mockito.mock(UsersService.class);
+		
+		List<String> user1 = new ArrayList();
+		user1.add("paul");
+		user1.add("open");
+		user1.add("paul@nowhere.com");
+		user1.add("true");
+		user1.add("admin");
+		
+		List<String> user2 = new ArrayList();
+		user2.add("michele");
+		user2.add("enter");
+		user2.add("paul@nowhere.com");
+		user2.add("true");
+		user2.add("user");
+		
+		List<List<String>> users = new ArrayList();
+		users.add(user1);
+		users.add(user2);
+		
+		users = Arrays.asList(user1, user2);
+		
+		List users2 = new ArrayList();
+				
+		lc = new LoginController();
+		
+	}
+
+	@Test
+	public void testShowAdminB() {
+		
+		List<User> users = usMock.getAllUsers();
+		
+		when(usMock.getAllUsers()).thenReturn(users);
+		assertEquals(4, users.size());
+		
+		System.out.println(users.toString());
+	}
+	
+	
+
+}

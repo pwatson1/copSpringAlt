@@ -1,0 +1,121 @@
+package com.pawdirect.spring.controller;
+
+import static org.junit.Assert.*;
+
+import de.bechte.junit.runners.context.HierarchicalContextRunner;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.ui.Model;
+
+import com.pawdirect.spring.dao.User;
+import com.pawdirect.spring.service.UsersService;
+
+public class LoginControllerTest {
+	public LoginController lc = null;
+	public UsersService us = null;
+	public Model model = null;
+	public User user = null;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		lc = new LoginController();
+		us = Mockito.mock(UsersService.class);
+		model = Mockito.mock(Model.class);
+		user = Mockito.mock(User.class);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		lc = null;
+	}
+
+	@Test
+	public void testShowAdminB() {
+		String result = lc.showAdmin(model);
+		assertNotNull(result);
+	}
+	
+	/*
+
+	@Test
+	public void testShowNewAccountB() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCreateAccountB() {
+		fail("Not yet implemented");
+	}
+	
+	public class InnerLoginControllerTestA {
+
+		@Before
+		public void setUpA() throws Exception {
+		}
+
+		@After
+		public void tearDownA() throws Exception {
+		}
+
+		@Test
+		public void testShowAdminA() {
+			fail("Not yet implemented");
+		}
+
+		@Test
+		public void testShowNewAccountA() {
+			fail("Not yet implemented");
+		}
+
+		@Test
+		public void testCreateAccountA() {
+			fail("Not yet implemented");
+		}
+		
+		public class InnerLoginControllerTestB {
+
+			@Before
+			public void setUpB() throws Exception {
+			}
+
+			@After
+			public void tearDownB() throws Exception {
+			}
+
+			@Test
+			public void testShowAdminB() {
+				fail("Not yet implemented");
+			}
+
+			@Test
+			public void testShowNewAccountB() {
+				fail("Not yet implemented");
+			}
+
+			@Test
+			public void testCreateAccountB() {
+				fail("Not yet implemented");
+			}	
+
+		}
+
+	}
+	
+	*/
+
+}

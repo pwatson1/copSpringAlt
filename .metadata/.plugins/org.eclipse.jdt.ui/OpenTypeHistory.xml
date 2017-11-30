@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
 <typeInfo handle="=bulletinboard/src&lt;com.pawdirect.spring.controller{HomeController.java[HomeController" modifiers="1" timestamp="1510512058043"/>
+<typeInfo handle="=bulletinboard/C:\/Users\/Admin\/.m2\/repository\/org\/mockito\/mockito-all\/2.0.2-beta\/mockito-all-2.0.2-beta.jar&lt;org.mockito(BDDMockito.class[BDDMockito" modifiers="33" timestamp="1510939266464"/>
+<typeInfo handle="=bulletinboard/C:\/Users\/Admin\/.m2\/repository\/org\/hamcrest\/hamcrest-library\/1.3\/hamcrest-library-1.3.jar&lt;org.hamcrest(Matchers.class[Matchers" modifiers="33" timestamp="1457161696393"/>
 </typeInfoHistroy>

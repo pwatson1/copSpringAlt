@@ -6,3 +6,7 @@
 1511982321935	Delete element
 1512048479143	Delete element
 1512051634928	Delete element
+1512074188322	Move file
+1512074214490	Move 'web.xml' to 'WEB-INF'
+1512074456800	Rename resource 'webContext.xml'
+1512074711785	Copy file

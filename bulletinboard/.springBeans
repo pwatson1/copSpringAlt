@@ -7,11 +7,11 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>webContext.xml</config>
 		<config>test/com/pawdirect/spring/config/testDao-context.xml</config>
 		<config>test/com/pawdirect/spring/config/testSecurity-context.xml</config>
 		<config>test/com/pawdirect/spring/config/testContext.xml</config>
 		<config>test/com/pawdirect/spring/test/config/testContext.xml</config>
+		<config>testContext.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/com/pawdirect/spring/config/security-context.xml</config>
